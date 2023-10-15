@@ -3,6 +3,7 @@ import mapboxgl from 'mapbox-gl';
 import { point, featureCollection } from '@turf/turf'
 
 import './App.css'
+import SelectorForm from './components/SelectorForm/SelectorForm';
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
 
 
@@ -29,19 +30,20 @@ const App = () => {
       zoom: 14
     });
 
+    //Creating a Geojson feature location for the ParkHome location
     const parkHome = featureCollection([point(parkHomeLocation)]);
 
 
 
-    const dropoffs = featureCollection([]);
+    const parks = featureCollection([]);
     const nothing = featureCollection([]);
 
-    const getWaypoints = async () => {
-      const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${12345}?access_token=${mapboxgl.accessToken}`
-      const response = await fetch(url)
-      const resJSON = await response.json()
-      setWaypoints(resJSON.data)
-    }
+    // const getWaypoints = async () => {
+    //   const url = `https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${12345}?access_token=${mapboxgl.accessToken}`
+    //   const response = await fetch(url)
+    //   const resJSON = await response.json()
+    //   setWaypoints(resJSON.data)
+    // }
 
 
     map.on('load', async () => {
@@ -77,10 +79,10 @@ const App = () => {
       });
 
       map.addLayer({
-        id: 'dropoffs-symbol',
+        id: 'parks-symbol',
         type: 'symbol',
         source: {
-          data: dropoffs as any,
+          data: parks as any,
           type: 'geojson'
         },
         layout: {
@@ -149,34 +151,34 @@ const App = () => {
         'waterway-label'
       );
 
-      await map.on('click', addWaypoints);
+      // await map.on('submit', addWaypoints);
 
     });
 
 
 
-    const addWaypoints = async (event: { point: mapboxgl.PointLike; }) => {
-      // When the map is clicked, add a new drop off point
-      // and update the `dropoffs-symbol` layer
-      await newDropoff(map.unproject(event.point));
-      updateDropoffs(dropoffs);
-    }
+    // const addWaypoints = async (event: { point: mapboxgl.PointLike; }) => {
+    //   // When the map is clicked, add a new drop off point
+    //   // and update the `dropoffs-symbol` layer
+    //   await newDropoff(map.unproject(event.point));
+    //   updateDropoffs(dropoffs);
+    // }
 
-    const newDropoff = (coordinates) => {
-      const pt = point([coordinates.lng, coordinates.lat], {
-        orderTime: Date.now(),
-        key: Math.random()
-      });
-      dropoffs.features.push(pt);
-    }
+    // const newDropoff = (coordinates) => {
+    //   const pt = point([coordinates.lng, coordinates.lat], {
+    //     orderTime: Date.now(),
+    //     key: Math.random()
+    //   });
+    //   dropoffs.features.push(pt);
+    // }
 
-    const uodateDropoffs = (geojson) => {
-      map.getSource('dropoffs-symbol').setData(geojson);
-    }
+    // const uodateDropoffs = (geojson) => {
+    //   map.getSource('dropoffs-symbol').setData(geojson);
+    // }
 
-    const createOptimizationQuery = () => {
-      const coordinates = [parkHomeLocation]
-    }
+    // const createOptimizationQuery = () => {
+    //   const coordinates = [parkHomeLocation]
+    // }
 
 
     return () => map.remove();
@@ -185,7 +187,9 @@ const App = () => {
   return (
 
     <div>
+
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
+      <SelectorForm />
     </div>
   )
 }
