@@ -189,7 +189,7 @@ const App = () => {
     <div>
 
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
-      <SelectorForm />
+      <SelectorForm onChange={()=>{console.log("changed")}}/>
     </div>
   )
 }
