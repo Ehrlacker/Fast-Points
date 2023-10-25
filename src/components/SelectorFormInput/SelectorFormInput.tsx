@@ -5,23 +5,17 @@ import { v4 as uuidv4 } from 'uuid';
 import './SelectorFormInput.css'
 
 type SelectorFormInputProps={
-    inputDefault:string;
-    onChange: ChangeEventHandler
+  selectValue:string;
+  inputDefault:string
+    onChange: ChangeEventHandler<HTMLSelectElement>
 }
 
-const SelectorFormInput = ({inputDefault, onChange}:SelectorFormInputProps) => {
+const SelectorFormInput = ({selectValue, inputDefault, onChange}:SelectorFormInputProps) => {
   return (
-    <select className="SelectorFormInput" onChange={onChange} value={inputDefault} >
-            <option disabled={true} value={inputDefault}>{inputDefault}</option>
-            {parkLocations?.map((park) => {
-              
-                return (
-                    <option key={uuidv4()}>
-                        {park.name}
-                    </option>
-                )
-            })}
-    </select>
+    <select className="SelectorFormInput" value={selectValue} onChange={onChange}>
+    <option value="" disabled>{inputDefault}</option>
+    {parkLocations.map(park => <option key={uuidv4()} value={park.name}>{park.name}</option>)}
+</select>
   )
 }
 

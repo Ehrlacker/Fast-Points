@@ -4,19 +4,25 @@ import { point, featureCollection } from '@turf/turf'
 
 import './App.css'
 import SelectorForm from './components/SelectorForm/SelectorForm';
+import parkLocations from './Arrays/parkLocations'
+import { parkProps } from './types'
+import axios from 'axios';
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
 
 
 
 const App = () => {
 
+  const [waypoints, setWaypoints] = useState<parkProps[]>([]);
+  const [optimizedRoute, setOptimizedRoute] = useState<string[]>([]);
+  const [start, setStart] = useState<parkProps>();
+  const [end, setEnd] = useState<parkProps>();
+  const [selectedWaypoint, setSelectedWaypoint] = useState<parkProps>();
+  const parkCoordinates = parkLocations
+
   const parkHomeLocation = [-78.84650, 35.73357];
-  const startingLocation = []
-  const endingLocation = []
-
-  const [lng, setLng] = useState(-78.84650);
-
-  const [lat, setLat] = useState(35.73357);
+  const [lng] = useState(-78.84650);
+  const [lat] = useState(35.73357);
 
 
   //Profile = mapbox/driving-traffic
@@ -32,9 +38,6 @@ const App = () => {
 
     //Creating a Geojson feature location for the ParkHome location
     const parkHome = featureCollection([point(parkHomeLocation)]);
-
-
-
     const parks = featureCollection([]);
     const nothing = featureCollection([]);
 
@@ -156,43 +159,65 @@ const App = () => {
     });
 
 
-
-    // const addWaypoints = async (event: { point: mapboxgl.PointLike; }) => {
-    //   // When the map is clicked, add a new drop off point
-    //   // and update the `dropoffs-symbol` layer
-    //   await newDropoff(map.unproject(event.point));
-    //   updateDropoffs(dropoffs);
-    // }
-
-    // const newDropoff = (coordinates) => {
-    //   const pt = point([coordinates.lng, coordinates.lat], {
-    //     orderTime: Date.now(),
-    //     key: Math.random()
-    //   });
-    //   dropoffs.features.push(pt);
-    // }
-
-    // const uodateDropoffs = (geojson) => {
-    //   map.getSource('dropoffs-symbol').setData(geojson);
-    // }
-
-    // const createOptimizationQuery = () => {
-    //   const coordinates = [parkHomeLocation]
-    // }
-
-
     return () => map.remove();
   }, []);
+
+
+
+  const handleAddWaypoint = () => {
+    if (selectedWaypoint) {
+        setWaypoints(prev => [...prev, selectedWaypoint]);
+    }
+    console.log(waypoints);
+};
+
+  const handleSelectedWaypoint = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    e.preventDefault();
+    const selectedName = e.currentTarget.value;
+    const selectedPark = parkCoordinates.find(park => park.name === selectedName);
+    if (selectedPark) {
+      setSelectedWaypoint(selectedPark);
+      console.log(selectedPark)
+    }
+  }
+
+  const handleStart = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedName = e.target.value;
+    const selectedPark = parkCoordinates.find(park => park.name === selectedName);
+    if (selectedPark) {
+      setStart(selectedPark);
+      console.log(selectedPark.coordinates)
+    }
+  }
+
+  const handleEnd = (e: React.ChangeEvent<HTMLSelectElement>) => {
+    const selectedName = e.target.value;
+    const selectedPark = parkCoordinates.find(park => park.name === selectedName);
+    if (selectedPark) {
+      setEnd(selectedPark);
+      console.log(selectedPark)
+    }
+  }
+
 
   return (
 
     <div>
 
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
-      <SelectorForm onChange={()=>{console.log("changed")}}/>
+      <SelectorForm
+        start={start}
+        end={end}
+        selectedWaypoint={selectedWaypoint}
+        handleEnd={handleEnd}
+        handleStart={handleStart}
+        handleSelectedWaypoint={handleSelectedWaypoint}
+        onAddWaypoint={handleAddWaypoint}
+        onOptimizeRoute={() => { console.log("handeled") }}
+        waypoints={waypoints}
+      />
     </div>
   )
 }
 
 export default App
-

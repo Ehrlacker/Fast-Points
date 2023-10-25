@@ -4,4 +4,6 @@
     max-width: 12rem;
     background-color: rgb(236, 236, 236);
     margin: .5rem 0 0 .5rem;
+    border-radius: .25rem;
+    border: none;
 }
