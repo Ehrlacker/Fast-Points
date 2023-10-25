@@ -1,5 +1,6 @@
 
 .SelectorFormButton{
-    max-width: 8rem;
-
+    max-width: 5rem;
+    margin-top: .5rem;
+    font-size: .75rem;
 }

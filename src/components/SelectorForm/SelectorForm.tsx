@@ -1,35 +1,64 @@
-
-import { ChangeEventHandler } from 'react'
-import SelectorFormButton from '../SelectorFormButton/SelectorFormButton'
+import { ChangeEventHandler } from 'react';
+import SelectorFormButton from '../SelectorFormButton/SelectorFormButton';
 import SelectorFormInput from '../SelectorFormInput/SelectorFormInput'
+import {parkProps} from '../../types'
 import './SelectorForm.css'
 
-
-type SelectorFormProps={
-onChange:ChangeEventHandler
+interface LocationSelectorProps {
+  onAddWaypoint: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+  onOptimizeRoute: () => void;
+  waypoints: parkProps[];
+  start?: parkProps,
+  end?: parkProps,
+  selectedWaypoint?: parkProps,
+  handleStart:ChangeEventHandler<HTMLSelectElement>,
+  handleEnd:ChangeEventHandler<HTMLSelectElement>
+  handleSelectedWaypoint: ChangeEventHandler<HTMLSelectElement>,
 }
 
+const SelectForm = ({ onAddWaypoint, onOptimizeRoute, waypoints, start, end, selectedWaypoint, handleStart, handleEnd, handleSelectedWaypoint }: LocationSelectorProps) => {
 
 
-const SelectorForm = ({onChange}:SelectorFormProps) => {
+
   return (
-    <form className="SelectorForm">
-        <SelectorFormInput
-        inputDefault="Starting point"
-        onChange={onChange}
-        />
-        <SelectorFormInput
-        inputDefault= "Middle point"
-        onChange={onChange}
-        />
-        <SelectorFormInput 
-        inputDefault= "End point"
-        onChange={onChange}
-        />
-        <SelectorFormButton
-        />
-    </form>
-  )
+    <div className="SelectorForm">
+      <SelectorFormInput
+        selectValue={start?.name || ""}
+        inputDefault="Select starting location"
+        // onChange={(e) => setStart(e.target.value)}
+        onChange={handleStart}
+      />
+
+      <SelectorFormInput
+        selectValue={end?.name || ""}
+        inputDefault="Select ending location"
+        // onChange={(e) => setEnd(e.target.value)}
+        onChange={handleEnd}
+      />
+
+      <SelectorFormInput
+        selectValue={selectedWaypoint?.name || ""}
+        inputDefault="Select a waypoint"
+        onChange={handleSelectedWaypoint}
+      />
+
+
+      <SelectorFormButton
+        buttonText="Add Waypoint"
+        onClick={onAddWaypoint}
+      />
+      <ul>
+        {waypoints.map((waypoint) => {
+          return <li>{waypoint.name}</li>
+        })}
+
+      </ul>
+      <SelectorFormButton
+        buttonText="Create Route"
+        onClick={onOptimizeRoute}
+      />
+    </div>
+  );
 }
 
-export default SelectorForm
+export default SelectForm;

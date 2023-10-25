@@ -1,8 +1,14 @@
 
 import './SelectorFormButton.css'
-const SelectorFormButton = () => {
+
+type SelectorFormButtonProps={
+  buttonText: string
+onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
+}
+
+const SelectorFormButton = ({onClick, buttonText}:SelectorFormButtonProps) => {
   return (
-    <button className="SelectorFormButton">Begin route</button>
+    <button onClick={onClick} className="SelectorFormButton">{buttonText}</button>
   )
 }
 
