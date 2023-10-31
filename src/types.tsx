@@ -6,9 +6,9 @@ name:string;
 coordinates: [number, number] 
 }
 
-// export type parkCoordinates={
-//     coordinates: [number, number]
-// }
+export type parkCoordinatePoints={
+    coordinates: [number, number]
+}
 
 // export type parkNames={
 //     name:string; 

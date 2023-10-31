@@ -2,6 +2,7 @@ import { ChangeEventHandler } from 'react';
 import SelectorFormButton from '../SelectorFormButton/SelectorFormButton';
 import SelectorFormInput from '../SelectorFormInput/SelectorFormInput'
 import {parkProps} from '../../types'
+import { v4 as uuidv4 } from 'uuid';
 import './SelectorForm.css'
 
 interface LocationSelectorProps {
@@ -49,7 +50,7 @@ const SelectForm = ({ onAddWaypoint, onOptimizeRoute, waypoints, start, end, sel
       />
       <ul>
         {waypoints.map((waypoint) => {
-          return <li>{waypoint.name}</li>
+          return <li key={uuidv4()} >{waypoint.name}</li>
         })}
 
       </ul>
