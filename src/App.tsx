@@ -42,6 +42,7 @@ const App = () => {
 
     if (mapRef.current) {
       (mapRef.current as mapboxgl.Map).on('load', async () => {
+
         (mapRef.current as mapboxgl.Map).addLayer({
           id: 'parkHome',
           type: 'circle',
@@ -82,14 +83,97 @@ const App = () => {
             'line-width': 5
           }
         });
+
+
+        (mapRef.current as mapboxgl.Map).addLayer(
+          {
+          id: 'routearrows',
+          type: 'symbol',
+          source: 'route',
+          layout: {
+          'symbol-placement': 'line',
+          'text-field': '▶',
+          'text-size': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          12,
+          24,
+          22,
+          60
+          ],
+          'symbol-spacing': [
+          'interpolate',
+          ['linear'],
+          ['zoom'],
+          12,
+          30,
+          22,
+          160
+          ],
+          'text-keep-upright': false
+          },
+          paint: {
+          'text-color': '#3887be',
+          'text-halo-color': 'hsl(55, 11%, 96%)',
+          'text-halo-width': 3
+          }
+          },
+          'waterway-label'
+          );
+
+
+          (mapRef.current as mapboxgl.Map).addSource('start-point', {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]  // Initializing with dummy coordinates
+                }
+            }
+        });
+    
+        (mapRef.current as mapboxgl.Map).addLayer({
+            'id': 'start-point-layer',
+            'type': 'circle',
+            'source': 'start-point',
+            'paint': {
+                'circle-radius': 7,
+                'circle-color': 'green'
+            }
+        });
+    
+        // End point source and layer
+        (mapRef.current as mapboxgl.Map).addSource('end-point', {
+            'type': 'geojson',
+            'data': {
+                'type': 'Feature',
+                'properties': {},
+                'geometry': {
+                    'type': 'Point',
+                    'coordinates': [0, 0]  
+                }
+            }
+        });
+    
+        (mapRef.current as mapboxgl.Map).addLayer({
+            'id': 'end-point-layer',
+            'type': 'circle',
+            'source': 'end-point',
+            'paint': {
+                'circle-radius': 7,
+                'circle-color': 'red'
+            }
+        });
+
+
+
       });
     }
     return () => (mapRef.current as mapboxgl.Map).remove();
   }, []);
-
-
-
-
 
   const handleAddWaypoint = () => {
     if (selectedWaypoint) {
