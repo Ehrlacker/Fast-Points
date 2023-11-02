@@ -1,6 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl';
-import { point, featureCollection } from '@turf/turf'
 import SelectorForm from './components/SelectorForm/SelectorForm';
 import parkLocations from './Arrays/parkLocations'
 import { parkProps } from './types'
@@ -16,15 +15,11 @@ mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
 const App = () => {
 
   const mapRef = useRef<mapboxgl.Map | null>(null);
-
   const [waypoints, setWaypoints] = useState<parkProps[]>([]);
   const [start, setStart] = useState<parkProps>();
   const [end, setEnd] = useState<parkProps>();
   const [selectedWaypoint, setSelectedWaypoint] = useState<parkProps>();
-  // const [coordinates, setCoordinates] = useState<number[][]>([]);
   const parkCoordinates = parkLocations
-
-  const parkHomeLocation = [-78.84650, 35.73357];
   const [lng] = useState(-78.84650);
   const [lat] = useState(35.73357);
 
@@ -37,26 +32,9 @@ const App = () => {
       zoom: 14
     });
 
-    //Creating a Geojson feature location for the ParkHome location
-    const parkHome = featureCollection([point(parkHomeLocation)]);
 
     if (mapRef.current) {
       (mapRef.current as mapboxgl.Map).on('load', async () => {
-
-        (mapRef.current as mapboxgl.Map).addLayer({
-          id: 'parkHome',
-          type: 'circle',
-          source: {
-            data: parkHome,
-            type: 'geojson'
-          },
-          paint: {
-            'circle-radius': 7,
-            'circle-color': 'red',
-            'circle-stroke-color': 'white',
-            'circle-stroke-width': 2
-          }
-        });
 
         (mapRef.current as mapboxgl.Map).addSource('route', {
           'type': 'geojson',
@@ -130,7 +108,7 @@ const App = () => {
                 'properties': {},
                 'geometry': {
                     'type': 'Point',
-                    'coordinates': [0, 0]  // Initializing with dummy coordinates
+                    'coordinates': [0, 0] 
                 }
             }
         });
@@ -145,7 +123,7 @@ const App = () => {
             }
         });
     
-        // End point source and layer
+
         (mapRef.current as mapboxgl.Map).addSource('end-point', {
             'type': 'geojson',
             'data': {
@@ -169,11 +147,90 @@ const App = () => {
         });
 
 
+        (mapRef.current as mapboxgl.Map).addSource('way-point', {
+          'type': 'geojson',
+          'data': {
+              'type': 'Feature',
+              'properties': {},
+              'geometry': {
+                  'type': 'Point',
+                  'coordinates': [0, 0]  
+              }
+          }
+      });
+  
+      (mapRef.current as mapboxgl.Map).addLayer({
+          'id': 'way-point-layer',
+          'type': 'circle',
+          'source': 'way-point',
+          'paint': {
+              'circle-radius': 7,
+              'circle-color': 'blue'
+          }
+      });
 
       });
     }
     return () => (mapRef.current as mapboxgl.Map).remove();
   }, []);
+
+
+
+
+  useEffect(() => {
+    if (start && mapRef.current) {
+      const startSource = mapRef.current.getSource('start-point') as mapboxgl.GeoJSONSource;
+      if (startSource) {
+          startSource.setData({
+              'type': 'Feature',
+              'properties': {},
+              'geometry': {
+                  'type': 'Point',
+                  'coordinates': start.coordinates
+              }
+          });
+      }
+    }
+  
+    if (end && mapRef.current) {
+      const endSource = mapRef.current.getSource('end-point') as mapboxgl.GeoJSONSource;
+      if (endSource) {
+          endSource.setData({
+              'type': 'Feature',
+              'properties': {},
+              'geometry': {
+                  'type': 'Point',
+                  'coordinates': end.coordinates
+              }
+          });
+      }
+    }
+
+
+    if (mapRef.current) {
+      const waypointsData: GeoJSON.FeatureCollection = {
+        type: 'FeatureCollection',
+        features: waypoints.map(waypoint => ({
+          type: 'Feature',
+          properties: {},
+          geometry: {
+            type: 'Point',
+            coordinates: waypoint.coordinates
+          }
+        }))
+      };
+  
+      const waypointsSource = mapRef.current?.getSource('way-point') as mapboxgl.GeoJSONSource | undefined;
+      if (waypointsSource) {
+          waypointsSource.setData(waypointsData);
+      }
+    }
+
+
+  }, [start, end, mapRef.current, waypoints]);
+
+
+
 
   const handleAddWaypoint = () => {
     if (selectedWaypoint) {
@@ -208,6 +265,7 @@ const App = () => {
 
 
   const handleOptimizeRoute = async () => {
+    console.log(waypoints)
     if (!start || !end || waypoints.length === 0) {
       alert("Please select a starting point, ending point, and at least one waypoint.");
       return;

@@ -25,6 +25,13 @@ const parkLocations: parkProps[] = [
         coordinates: [-78.894389, 35.731751]
     },
 
+
+    {
+        name: "Kelly Glen Park ",
+        type: "park",
+        coordinates: [-78.893413, 35.729600]
+    },
+
     {
         name: "Nature Park",
         type: "park",
@@ -69,6 +76,21 @@ const parkLocations: parkProps[] = [
         type: "park",
         coordinates: [ -78.850311, 35.732746] 
     },
+
+    {
+        name: "Sue Helton",
+        type: "park",
+        coordinates: [ -78.848996, 35.720515] 
+    },
+
+
+    {
+        name: "West street Park",
+        type: "park",
+        coordinates: [ -78.848996, 35.720515] 
+    },
+
+
     {
         name: "Jordan Manors",
         type: "greenway",

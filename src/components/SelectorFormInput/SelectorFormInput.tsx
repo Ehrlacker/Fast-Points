@@ -14,7 +14,7 @@ const SelectorFormInput = ({selectValue, inputDefault, onChange}:SelectorFormInp
   return (
     <select className="SelectorFormInput" value={selectValue} onChange={onChange}>
     <option value="" disabled>{inputDefault}</option>
-    {parkLocations.map(park => <option key={uuidv4()} value={park.name}>{park.name}</option>)}
+    {parkLocations.map(park => <option  key={uuidv4()} value={park.name}>{park.name}</option>)}
 </select>
   )
 }
