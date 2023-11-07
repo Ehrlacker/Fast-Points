@@ -1,0 +1,27 @@
+
+
+.waypoints{
+    display: flex;
+    justify-content: flex-start;
+    width: 100%;
+}
+
+.WaypointbuttonContainer{
+    display: flex;
+}
+
+.WaypointDeleteButton{
+    font-size:.75rem;
+    width: .75rem;
+    height: 1.5rem;
+    color: blue;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.parkWaypoint{
+    list-style: none;
+    margin-left: 1rem;
+}

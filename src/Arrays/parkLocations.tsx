@@ -6,7 +6,6 @@ const parkLocations: parkProps[] = [
         name: "Apex Community Park",
         type: "park",
         coordinates: [-78.827544, 35.754939] 
-        //as [number, number]
     },
     {
         name: "Lake pine",
@@ -210,11 +209,6 @@ const parkLocations: parkProps[] = [
         type: "greenway",
         coordinates: [-78.883693, 35.736077] 
     },
-
-
-    //, 
-
-
 
 ]
 
