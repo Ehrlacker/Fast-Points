@@ -5,7 +5,6 @@ import parkLocations from './Arrays/parkLocations'
 import { parkProps } from './types'
 import polyline from '@mapbox/polyline'
 import axios from 'axios';
-import RightArrow from '../src/assets/icons/right-arrow.png'
 import './App.css'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -339,7 +338,7 @@ const App = () => {
           handleSelectedWaypoint={handleSelectedWaypoint}
           onAddWaypoint={handleAddWaypoint}
           onOptimizeRoute={handleOptimizeRoute}
-          waypoints={waypoints}
+          // waypoints={waypoints}
         />
         : <ClosedSelectorForm
           onClick={() => setSelectorFormOpen(true)} />}

@@ -4,13 +4,13 @@ import AddWaypointButton from '../AddWaypointButton/AddWaypointButton'
 import SelectorFormInput from '../SelectorFormInput/SelectorFormInput'
 import { parkProps } from '../../types'
 import './SelectorForm.css'
-import Waypoints from '../Waypoints/Waypoints';
+// import Waypoints from '../Waypoints/Waypoints';
 import ViewRouteButton from '../ViewRouteButton/ViewRouteButton';
 
 interface LocationSelectorProps {
   onAddWaypoint: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
   onOptimizeRoute: () => void;
-  waypoints: parkProps[];
+  // waypoints: parkProps[];
   start?: parkProps,
   end?: parkProps,
   selectedWaypoint?: parkProps,
@@ -19,7 +19,7 @@ interface LocationSelectorProps {
   handleSelectedWaypoint: ChangeEventHandler<HTMLSelectElement>,
 }
 
-const SelectForm = ({ onAddWaypoint, onOptimizeRoute, waypoints, start, end, selectedWaypoint, handleStart, handleEnd, handleSelectedWaypoint }: LocationSelectorProps) => {
+const SelectForm = ({ onAddWaypoint, onOptimizeRoute, start, end, selectedWaypoint, handleStart, handleEnd, handleSelectedWaypoint }: LocationSelectorProps) => {
 
 
 
