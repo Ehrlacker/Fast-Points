@@ -1,0 +1,9 @@
+
+.AddWaypointButton{
+    /* max-width: 12rem; */
+    width: 10rem;
+    margin: .5rem .5rem 0 0;
+    font-size: .75rem;
+    font-weight: bold;
+    background-color: rgb(137, 173, 218);;
+}

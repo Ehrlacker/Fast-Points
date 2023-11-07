@@ -5,7 +5,11 @@ import parkLocations from './Arrays/parkLocations'
 import { parkProps } from './types'
 import polyline from '@mapbox/polyline'
 import axios from 'axios';
+import RightArrow from '../src/assets/icons/right-arrow.png'
 import './App.css'
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import ClosedSelectorForm from './components/ClosedSelectorForm/ClosedSelectorForm';
 
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
@@ -19,6 +23,7 @@ const App = () => {
   const [start, setStart] = useState<parkProps>();
   const [end, setEnd] = useState<parkProps>();
   const [selectedWaypoint, setSelectedWaypoint] = useState<parkProps>();
+  const [selectorFormOpen, setSelectorFormOpen] = useState(true)
   const parkCoordinates = parkLocations
   const [lng] = useState(-78.84650);
   const [lat] = useState(35.73357);
@@ -35,7 +40,6 @@ const App = () => {
 
     if (mapRef.current) {
       (mapRef.current as mapboxgl.Map).on('load', async () => {
-
         (mapRef.current as mapboxgl.Map).addSource('route', {
           'type': 'geojson',
           'data': {
@@ -65,109 +69,109 @@ const App = () => {
 
         (mapRef.current as mapboxgl.Map).addLayer(
           {
-          id: 'routearrows',
-          type: 'symbol',
-          source: 'route',
-          layout: {
-          'symbol-placement': 'line',
-          'text-field': '▶',
-          'text-size': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          12,
-          24,
-          22,
-          60
-          ],
-          'symbol-spacing': [
-          'interpolate',
-          ['linear'],
-          ['zoom'],
-          12,
-          30,
-          22,
-          160
-          ],
-          'text-keep-upright': false
-          },
-          paint: {
-          'text-color': '#3887be',
-          'text-halo-color': 'hsl(55, 11%, 96%)',
-          'text-halo-width': 3
-          }
+            id: 'routearrows',
+            type: 'symbol',
+            source: 'route',
+            layout: {
+              'symbol-placement': 'line',
+              'text-field': '▶',
+              'text-size': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                12,
+                24,
+                22,
+                60
+              ],
+              'symbol-spacing': [
+                'interpolate',
+                ['linear'],
+                ['zoom'],
+                12,
+                30,
+                22,
+                160
+              ],
+              'text-keep-upright': false
+            },
+            paint: {
+              'text-color': '#3887be',
+              'text-halo-color': 'hsl(55, 11%, 96%)',
+              'text-halo-width': 3
+            }
           },
           'waterway-label'
-          );
+        );
 
 
-          (mapRef.current as mapboxgl.Map).addSource('start-point', {
-            'type': 'geojson',
-            'data': {
-                'type': 'Feature',
-                'properties': {},
-                'geometry': {
-                    'type': 'Point',
-                    'coordinates': [0, 0] 
-                }
+        (mapRef.current as mapboxgl.Map).addSource('start-point', {
+          'type': 'geojson',
+          'data': {
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [0, 0]
             }
+          }
         });
-    
+
         (mapRef.current as mapboxgl.Map).addLayer({
-            'id': 'start-point-layer',
-            'type': 'circle',
-            'source': 'start-point',
-            'paint': {
-                'circle-radius': 7,
-                'circle-color': 'green'
-            }
+          'id': 'start-point-layer',
+          'type': 'circle',
+          'source': 'start-point',
+          'paint': {
+            'circle-radius': 7,
+            'circle-color': 'green'
+          }
         });
-    
+
 
         (mapRef.current as mapboxgl.Map).addSource('end-point', {
-            'type': 'geojson',
-            'data': {
-                'type': 'Feature',
-                'properties': {},
-                'geometry': {
-                    'type': 'Point',
-                    'coordinates': [0, 0]  
-                }
+          'type': 'geojson',
+          'data': {
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [0, 0]
             }
+          }
         });
-    
+
         (mapRef.current as mapboxgl.Map).addLayer({
-            'id': 'end-point-layer',
-            'type': 'circle',
-            'source': 'end-point',
-            'paint': {
-                'circle-radius': 7,
-                'circle-color': 'red'
-            }
+          'id': 'end-point-layer',
+          'type': 'circle',
+          'source': 'end-point',
+          'paint': {
+            'circle-radius': 7,
+            'circle-color': 'red'
+          }
         });
 
 
         (mapRef.current as mapboxgl.Map).addSource('way-point', {
           'type': 'geojson',
           'data': {
-              'type': 'Feature',
-              'properties': {},
-              'geometry': {
-                  'type': 'Point',
-                  'coordinates': [0, 0]  
-              }
+            'type': 'Feature',
+            'properties': {},
+            'geometry': {
+              'type': 'Point',
+              'coordinates': [0, 0]
+            }
           }
-      });
-  
-      (mapRef.current as mapboxgl.Map).addLayer({
+        });
+
+        (mapRef.current as mapboxgl.Map).addLayer({
           'id': 'way-point-layer',
           'type': 'circle',
           'source': 'way-point',
           'paint': {
-              'circle-radius': 7,
-              'circle-color': 'blue'
+            'circle-radius': 7,
+            'circle-color': 'blue'
           }
-      });
+        });
 
       });
     }
@@ -181,28 +185,28 @@ const App = () => {
     if (start && mapRef.current) {
       const startSource = mapRef.current.getSource('start-point') as mapboxgl.GeoJSONSource;
       if (startSource) {
-          startSource.setData({
-              'type': 'Feature',
-              'properties': {},
-              'geometry': {
-                  'type': 'Point',
-                  'coordinates': start.coordinates
-              }
-          });
+        startSource.setData({
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Point',
+            'coordinates': start.coordinates
+          }
+        });
       }
     }
-  
+
     if (end && mapRef.current) {
       const endSource = mapRef.current.getSource('end-point') as mapboxgl.GeoJSONSource;
       if (endSource) {
-          endSource.setData({
-              'type': 'Feature',
-              'properties': {},
-              'geometry': {
-                  'type': 'Point',
-                  'coordinates': end.coordinates
-              }
-          });
+        endSource.setData({
+          'type': 'Feature',
+          'properties': {},
+          'geometry': {
+            'type': 'Point',
+            'coordinates': end.coordinates
+          }
+        });
       }
     }
 
@@ -219,10 +223,10 @@ const App = () => {
           }
         }))
       };
-  
+
       const waypointsSource = mapRef.current?.getSource('way-point') as mapboxgl.GeoJSONSource | undefined;
       if (waypointsSource) {
-          waypointsSource.setData(waypointsData);
+        waypointsSource.setData(waypointsData);
       }
     }
 
@@ -235,11 +239,14 @@ const App = () => {
   const handleAddWaypoint = () => {
     if (selectedWaypoint) {
       setWaypoints(prev => [...prev, selectedWaypoint]);
+      toast(`${selectedWaypoint.name} added to route`);
+      setSelectedWaypoint(undefined)
     }
   };
 
   const handleSelectedWaypoint = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
+    // const parkCoordinates = e.target.getAttribute("data-coordinates")
     const selectedName = e.currentTarget.value;
     const selectedPark = parkCoordinates.find(park => park.name === selectedName);
     if (selectedPark) {
@@ -264,10 +271,11 @@ const App = () => {
   }
 
 
+
   const handleOptimizeRoute = async () => {
-    console.log(waypoints)
+
     if (!start || !end || waypoints.length === 0) {
-      alert("Please select a starting point, ending point, and at least one waypoint.");
+      toast("Please select a starting point, ending point, and at least one waypoint.");
       return;
     }
 
@@ -275,25 +283,20 @@ const App = () => {
 
     try {
       const response = await axios.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinates}?source=first&destination=last&access_token=${mapboxgl.accessToken}`);
-      console.log(response.data)
-
-
       if (response.data.code === "Ok") {
         const optimizedRoute = polyline.decode(response.data?.trips[0]?.geometry);
         const latLongReversed = optimizedRoute.map((coordinatePair) => {
           const [lat, long] = coordinatePair;
           return [long, lat];
         })
-        console.log("Optimized route coordinates:", optimizedRoute);
-        console.log("reversed", latLongReversed)
         drawRouteOnMap(latLongReversed);
+        setSelectorFormOpen(false)
       } else {
-        alert("Error optimizing the route. Please try again.");
+        toast("Error optimizing the route. Please try again.");
       }
 
     } catch (error) {
-      alert("Error optimizing the route. Please try again.");
-      console.error("Error with the Mapbox Optimization API:", error);
+      toast("Error optimizing the route. Please try again.");
     }
   };
 
@@ -314,7 +317,7 @@ const App = () => {
       }
     }
     else {
-      console.log('Map instance is not available.');
+      toast('Map instance is not available.');
     }
   }
 
@@ -323,17 +326,24 @@ const App = () => {
   return (
     <div>
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
-      <SelectorForm
-        start={start}
-        end={end}
-        selectedWaypoint={selectedWaypoint}
-        handleEnd={handleEnd}
-        handleStart={handleStart}
-        handleSelectedWaypoint={handleSelectedWaypoint}
-        onAddWaypoint={handleAddWaypoint}
-        onOptimizeRoute={handleOptimizeRoute}
-        waypoints={waypoints}
-      />
+      <ToastContainer
+        position="top-right"
+        autoClose={2000} />
+      {selectorFormOpen === true ?
+        <SelectorForm
+          start={start}
+          end={end}
+          selectedWaypoint={selectedWaypoint}
+          handleEnd={handleEnd}
+          handleStart={handleStart}
+          handleSelectedWaypoint={handleSelectedWaypoint}
+          onAddWaypoint={handleAddWaypoint}
+          onOptimizeRoute={handleOptimizeRoute}
+          waypoints={waypoints}
+        />
+        : <ClosedSelectorForm
+          onClick={() => setSelectorFormOpen(true)} />}
+
     </div>
   )
 }

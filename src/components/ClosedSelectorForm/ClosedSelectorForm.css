@@ -1,0 +1,24 @@
+
+
+.ClosedSelectorForm{
+    all: unset;
+    margin-left: 1rem;
+    width:1rem;
+    height: 1rem;
+    color: rgb(82, 82, 82);
+    font-size: 3rem;
+    position: absolute;
+    background-color: rgb(244, 244, 244);
+    padding: 1rem;
+    border-radius: 2rem;
+    top: 5%;
+    left: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+}
+
+.ClosedSelectorForm:hover{
+    cursor: pointer;
+}
