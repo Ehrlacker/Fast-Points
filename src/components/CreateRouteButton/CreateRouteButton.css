@@ -2,6 +2,7 @@
 
 .CreateRouteButton{
     width: 10rem;
+    height: 2rem;
     font-size: .75rem;
     font-weight: bold;
     background-color: rgb(106, 233, 106);
