@@ -28,13 +28,13 @@ const SelectForm = ({ onAddWaypoint, onOptimizeRoute, start, end, selectedWaypoi
       <div className="StartEndInputContainer">
         <SelectorFormInput
           selectValue={start?.name || ""}
-          inputDefault="Select starting location"
+          inputDefault="Select start"
           onChange={handleStart}
         />
 
         <SelectorFormInput
           selectValue={end?.name || ""}
-          inputDefault="Select ending location"
+          inputDefault="Select end"
           onChange={handleEnd}
         />
 
@@ -43,7 +43,7 @@ const SelectForm = ({ onAddWaypoint, onOptimizeRoute, start, end, selectedWaypoi
       <div className="waypointButtonAndInputContainer">
         <SelectorFormInput
           selectValue={selectedWaypoint?.name || ""}
-          inputDefault="Select a waypoint"
+          inputDefault="Select waypoint"
           onChange={handleSelectedWaypoint}
         />
 
