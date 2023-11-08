@@ -1,7 +1,7 @@
 
 
 .SelectorFormInput{
-    max-width: 10rem;
+    width: 10rem;
     background-color: rgb(236, 236, 236);
     color: black;
     margin: .5rem .5rem 0 .5rem;
