@@ -28,7 +28,7 @@
 .StartEndInputContainer{
     display: flex;
     justify-content: space-between;
-margin: .5rem;
+    margin: .5rem;
 }
 
 .waypointButtonAndInputContainer{
@@ -39,17 +39,17 @@ margin: .5rem;
 }
 
 .CreateViewRouteButtonContainer{
-position:absolute;
-bottom: 0;
-display: flex;
-justify-content: space-between;
-flex-direction:row-reverse;
-width: 100%;
+    position:absolute;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    flex-direction:row-reverse;
+    width: 100%;
 }
 
 
 
-@media(max-width: 500px){
+@media(max-width: 450px){
     .SelectorForm{
     max-width:100%;
     top: 5rem;

@@ -9,6 +9,7 @@ import './App.css'
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ClosedSelectorForm from './components/ClosedSelectorForm/ClosedSelectorForm';
+import ViewRouteContainer from './components/ViewRouteContainer/ViewRouteContainer';
 
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
@@ -23,6 +24,7 @@ const App = () => {
   const [end, setEnd] = useState<parkProps>();
   const [selectedWaypoint, setSelectedWaypoint] = useState<parkProps>();
   const [selectorFormOpen, setSelectorFormOpen] = useState(true)
+  const [routeViewable, setRouteViewable] = useState(false)
   const parkCoordinates = parkLocations
   const [lng] = useState(-78.84650);
   const [lat] = useState(35.73357);
@@ -237,15 +239,19 @@ const App = () => {
 
   const handleAddWaypoint = () => {
     if (selectedWaypoint) {
-      setWaypoints(prev => [...prev, selectedWaypoint]);
-      toast(`${selectedWaypoint.name} added to route`);
-      setSelectedWaypoint(undefined)
+      const waypointExists = waypoints.some(waypoint => waypoint.id === selectedWaypoint.id);
+      if (!waypointExists) {
+        setWaypoints(prev => [...prev, selectedWaypoint]);
+        toast(`${selectedWaypoint.name} added to route`);
+      } else {
+        toast(`${selectedWaypoint.name} already added to route`);
+      }
+      setSelectedWaypoint(undefined);
     }
   };
 
   const handleSelectedWaypoint = (e: React.ChangeEvent<HTMLSelectElement>) => {
     e.preventDefault();
-    // const parkCoordinates = e.target.getAttribute("data-coordinates")
     const selectedName = e.currentTarget.value;
     const selectedPark = parkCoordinates.find(park => park.name === selectedName);
     if (selectedPark) {
@@ -268,7 +274,6 @@ const App = () => {
       setEnd(selectedPark);
     }
   }
-
 
 
   const handleOptimizeRoute = async () => {
@@ -327,8 +332,8 @@ const App = () => {
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
       <ToastContainer
         position="top-right"
-        autoClose={2000} />
-      {selectorFormOpen === true ?
+        autoClose={3000} />
+      {selectorFormOpen ?
         <SelectorForm
           start={start}
           end={end}
@@ -338,10 +343,18 @@ const App = () => {
           handleSelectedWaypoint={handleSelectedWaypoint}
           onAddWaypoint={handleAddWaypoint}
           onOptimizeRoute={handleOptimizeRoute}
-          // waypoints={waypoints}
+          viewRoute={() => { setRouteViewable(true) }}
         />
         : <ClosedSelectorForm
           onClick={() => setSelectorFormOpen(true)} />}
+
+      {routeViewable ?
+       <ViewRouteContainer
+       setState={setWaypoints}
+        viewRouteFalse={() => { setRouteViewable(false) }}
+        routeStart={start}
+        routePoints={waypoints}
+        routeEnd={end} /> : null}
 
     </div>
   )

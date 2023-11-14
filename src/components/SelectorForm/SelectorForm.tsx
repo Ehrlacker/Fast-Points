@@ -4,22 +4,21 @@ import AddWaypointButton from '../AddWaypointButton/AddWaypointButton'
 import SelectorFormInput from '../SelectorFormInput/SelectorFormInput'
 import { parkProps } from '../../types'
 import './SelectorForm.css'
-// import Waypoints from '../Waypoints/Waypoints';
 import ViewRouteButton from '../ViewRouteButton/ViewRouteButton';
 
 interface LocationSelectorProps {
-  onAddWaypoint: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void
-  onOptimizeRoute: () => void;
-  // waypoints: parkProps[];
+  onAddWaypoint: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  viewRoute: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+  onOptimizeRoute: () => void,
   start?: parkProps,
   end?: parkProps,
   selectedWaypoint?: parkProps,
   handleStart: ChangeEventHandler<HTMLSelectElement>,
-  handleEnd: ChangeEventHandler<HTMLSelectElement>
+  handleEnd: ChangeEventHandler<HTMLSelectElement>,
   handleSelectedWaypoint: ChangeEventHandler<HTMLSelectElement>,
 }
 
-const SelectForm = ({ onAddWaypoint, onOptimizeRoute, start, end, selectedWaypoint, handleStart, handleEnd, handleSelectedWaypoint }: LocationSelectorProps) => {
+const SelectForm = ({ onAddWaypoint,viewRoute, onOptimizeRoute, start, end, selectedWaypoint, handleStart, handleEnd, handleSelectedWaypoint }: LocationSelectorProps) => {
 
 
 
@@ -48,13 +47,12 @@ const SelectForm = ({ onAddWaypoint, onOptimizeRoute, start, end, selectedWaypoi
         />
 
         <AddWaypointButton
-          buttonText="Add Waypoint"
+          buttonText="Add"
           onClick={onAddWaypoint}
         />
 
       </div>
 
-      {/* <Waypoints waypointsArray={waypoints} /> */}
       <div className="CreateViewRouteButtonContainer">
         <CreateRouteButton
           buttonText="Create Route"
@@ -62,8 +60,8 @@ const SelectForm = ({ onAddWaypoint, onOptimizeRoute, start, end, selectedWaypoi
         />
 
         <ViewRouteButton
-          buttonText="View Route"
-          onClick={() => { "logged" }}
+          buttonText="View Points"
+          onClick={viewRoute}
         />
       </div>
 
