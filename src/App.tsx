@@ -3,14 +3,13 @@ import mapboxgl from 'mapbox-gl';
 import SelectorForm from './components/SelectorForm/SelectorForm';
 import parkLocations from './Arrays/parkLocations'
 import { parkProps } from './types'
-import polyline from '@mapbox/polyline'
-import axios from 'axios';
 import './App.css'
-import { toast, ToastContainer } from 'react-toastify';
+import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ClosedSelectorForm from './components/ClosedSelectorForm/ClosedSelectorForm';
 import ViewRouteContainer from './components/ViewRouteContainer/ViewRouteContainer';
-
+import { handleAddWaypoint, handleEnd, handleOptimizeRoute, handleSelectedWaypoint, handleStart } from './Handlers/Handlers';
+import { setupMapPoints } from './Utils/setupMapPoints'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
 
@@ -28,7 +27,6 @@ const App = () => {
   const parkCoordinates = parkLocations
   const [lng] = useState(-78.84650);
   const [lat] = useState(35.73357);
-
 
   useEffect(() => {
     mapRef.current = new mapboxgl.Map({
@@ -180,155 +178,15 @@ const App = () => {
   }, []);
 
 
-
-
   useEffect(() => {
-    if (start && mapRef.current) {
-      const startSource = mapRef.current.getSource('start-point') as mapboxgl.GeoJSONSource;
-      if (startSource) {
-        startSource.setData({
-          'type': 'Feature',
-          'properties': {},
-          'geometry': {
-            'type': 'Point',
-            'coordinates': start.coordinates
-          }
-        });
-      }
-    }
-
-    if (end && mapRef.current) {
-      const endSource = mapRef.current.getSource('end-point') as mapboxgl.GeoJSONSource;
-      if (endSource) {
-        endSource.setData({
-          'type': 'Feature',
-          'properties': {},
-          'geometry': {
-            'type': 'Point',
-            'coordinates': end.coordinates
-          }
-        });
-      }
-    }
-
-
     if (mapRef.current) {
-      const waypointsData: GeoJSON.FeatureCollection = {
-        type: 'FeatureCollection',
-        features: waypoints.map(waypoint => ({
-          type: 'Feature',
-          properties: {},
-          geometry: {
-            type: 'Point',
-            coordinates: waypoint.coordinates
-          }
-        }))
-      };
-
-      const waypointsSource = mapRef.current?.getSource('way-point') as mapboxgl.GeoJSONSource | undefined;
-      if (waypointsSource) {
-        waypointsSource.setData(waypointsData);
-      }
+      setupMapPoints(mapRef.current, start, end, waypoints);
     }
-
-
-  }, [start, end, mapRef.current, waypoints]);
-
-
-
-
-  const handleAddWaypoint = () => {
-    if (selectedWaypoint) {
-      const waypointExists = waypoints.some(waypoint => waypoint.id === selectedWaypoint.id);
-      if (!waypointExists) {
-        setWaypoints(prev => [...prev, selectedWaypoint]);
-        toast(`${selectedWaypoint.name} added to route`);
-      } else {
-        toast(`${selectedWaypoint.name} already added to route`);
-      }
-      setSelectedWaypoint(undefined);
-    }
-  };
-
-  const handleSelectedWaypoint = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    e.preventDefault();
-    const selectedName = e.currentTarget.value;
-    const selectedPark = parkCoordinates.find(park => park.name === selectedName);
-    if (selectedPark) {
-      setSelectedWaypoint(selectedPark);
-    }
-  }
-
-  const handleStart = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedName = e.target.value;
-    const selectedPark = parkCoordinates.find(park => park.name === selectedName);
-    if (selectedPark) {
-      setStart(selectedPark);
-    }
-  }
-
-  const handleEnd = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const selectedName = e.target.value;
-    const selectedPark = parkCoordinates.find(park => park.name === selectedName);
-    if (selectedPark) {
-      setEnd(selectedPark);
-    }
-  }
-
-
-  const handleOptimizeRoute = async () => {
-
-    if (!start || !end || waypoints.length === 0) {
-      toast("Please select a starting point, ending point, and at least one waypoint.");
-      return;
-    }
-
-    const coordinates = [start.coordinates, ...waypoints.map(wp => wp.coordinates), end.coordinates].join(';');
-
-    try {
-      const response = await axios.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinates}?source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`);
-      if (response.data.code === "Ok") {
-        const optimizedRoute = polyline.decode(response.data?.trips[0]?.geometry);
-        const latLongReversed = optimizedRoute.map((coordinatePair) => {
-          const [lat, long] = coordinatePair;
-          return [long, lat];
-        })
-        drawRouteOnMap(latLongReversed);
-        setSelectorFormOpen(false)
-      } else {
-        toast("Error optimizing the route. Please try again.");
-      }
-
-    } catch (error) {
-      toast("Error optimizing the route. Please try again.");
-    }
-  };
-
-
-  const drawRouteOnMap = (coordinates: number[][]) => {
-    const mapInstance = mapRef.current;
-    if (mapInstance) {
-      const routeSource = mapInstance.getSource('route') as mapboxgl.GeoJSONSource;
-      if (routeSource) {
-        routeSource.setData({
-          'type': 'Feature',
-          'properties': {},
-          'geometry': {
-            'type': 'LineString',
-            'coordinates': coordinates
-          }
-        });
-      }
-    }
-    else {
-      toast('Map instance is not available.');
-    }
-  }
-
+  }, [start, end, waypoints]);
 
 
   return (
-    <div>
+    <>
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
       <ToastContainer
         position="top-right"
@@ -338,25 +196,25 @@ const App = () => {
           start={start}
           end={end}
           selectedWaypoint={selectedWaypoint}
-          handleEnd={handleEnd}
-          handleStart={handleStart}
-          handleSelectedWaypoint={handleSelectedWaypoint}
-          onAddWaypoint={handleAddWaypoint}
-          onOptimizeRoute={handleOptimizeRoute}
+          handleEnd={(e) => handleEnd(e, parkCoordinates, setEnd)}
+          handleStart={(e) => handleStart(e, parkCoordinates, setStart)}
+          handleSelectedWaypoint={(e) => handleSelectedWaypoint(e, parkCoordinates, setSelectedWaypoint)}
+          onAddWaypoint={() => handleAddWaypoint(selectedWaypoint, waypoints, setWaypoints, setSelectedWaypoint)}
+          onOptimizeRoute={() => handleOptimizeRoute(start, end, waypoints, setSelectorFormOpen, mapRef)}
           viewRoute={() => { setRouteViewable(true) }}
         />
         : <ClosedSelectorForm
           onClick={() => setSelectorFormOpen(true)} />}
 
       {routeViewable ?
-       <ViewRouteContainer
-       setState={setWaypoints}
-        viewRouteFalse={() => { setRouteViewable(false) }}
-        routeStart={start}
-        routePoints={waypoints}
-        routeEnd={end} /> : null}
+        <ViewRouteContainer
+          setState={setWaypoints}
+          viewRouteFalse={() => { setRouteViewable(false) }}
+          routeStart={start}
+          routePoints={waypoints}
+          routeEnd={end} /> : null}
 
-    </div>
+    </>
   )
 }
 
