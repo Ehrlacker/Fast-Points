@@ -7,4 +7,5 @@
     font-weight: bold;
     background-color: rgb(137, 173, 218);
     color: black;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }

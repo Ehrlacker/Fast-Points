@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react'
 import mapboxgl from 'mapbox-gl';
 import SelectorForm from './components/SelectorForm/SelectorForm';
 import parkLocations from './Arrays/parkLocations'
-import { parkProps } from './types'
+import { parkProps, Trip } from './types'
 import './App.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -21,12 +21,18 @@ const App = () => {
   const [waypoints, setWaypoints] = useState<parkProps[]>([]);
   const [start, setStart] = useState<parkProps>();
   const [end, setEnd] = useState<parkProps>();
+  const [Trips, setTrips] = useState<Trip[]>([])
   const [selectedWaypoint, setSelectedWaypoint] = useState<parkProps>();
   const [selectorFormOpen, setSelectorFormOpen] = useState(true)
   const [routeViewable, setRouteViewable] = useState(false)
+  const [pointsModal, setPointsModal] = useState(true);
+  const [optimizedModal, setOptimizedModal] = useState(false);
+  const [directionsModal, setDirectionsModal] = useState(false);
   const parkCoordinates = parkLocations
   const [lng] = useState(-78.84650);
   const [lat] = useState(35.73357);
+
+
 
   useEffect(() => {
     mapRef.current = new mapboxgl.Map({
@@ -185,6 +191,7 @@ const App = () => {
   }, [start, end, waypoints]);
 
 
+
   return (
     <>
       <div id="map" style={{ width: "100vw", height: "100vh" }}></div>
@@ -200,7 +207,7 @@ const App = () => {
           handleStart={(e) => handleStart(e, parkCoordinates, setStart)}
           handleSelectedWaypoint={(e) => handleSelectedWaypoint(e, parkCoordinates, setSelectedWaypoint)}
           onAddWaypoint={() => handleAddWaypoint(selectedWaypoint, waypoints, setWaypoints, setSelectedWaypoint)}
-          onOptimizeRoute={() => handleOptimizeRoute(start, end, waypoints, setSelectorFormOpen, mapRef)}
+          onOptimizeRoute={() => handleOptimizeRoute(start, end, waypoints, setSelectorFormOpen, setTrips, mapRef)}
           viewRoute={() => { setRouteViewable(true) }}
         />
         : <ClosedSelectorForm
@@ -209,10 +216,19 @@ const App = () => {
       {routeViewable ?
         <ViewRouteContainer
           setState={setWaypoints}
-          viewRouteFalse={() => { setRouteViewable(false) }}
+          viewRouteFalse={() => {setRouteViewable(false)}}
           routeStart={start}
           routePoints={waypoints}
-          routeEnd={end} /> : null}
+          routeEnd={end}
+          PointsModal={pointsModal}
+          setPointsModal={setPointsModal}
+          OptimizedModal={optimizedModal}
+          setOptimizedModal={setOptimizedModal}
+          DirectionsModal={directionsModal}
+          setDirectionsModal={setDirectionsModal}
+          TripArray={Trips}
+        /> : null}
+
 
     </>
   )

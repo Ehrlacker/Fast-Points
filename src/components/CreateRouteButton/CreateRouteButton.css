@@ -8,4 +8,5 @@
     background-color: rgb(106, 233, 106);
     color: black;
     margin: .5rem .5rem 1rem 0;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }

@@ -4,13 +4,77 @@
     background-color: white;
     max-width: 23rem;
     width: 100%;
-    height: 350px;
+    height: 250px;
     font-weight: bold;
     font-size: .75rem;
     position: absolute;
-    top:15rem;
+    top:13rem;
     left: 1rem;
     border-radius: 1.25rem;
+    display:flex;
+    flex-direction: column;
+}
+
+
+
+.HeadingsWrapper{
+    display: flex;
+    margin:1rem 0 1rem 0;
+}
+
+.ViewRouteContinerPoints{
+    all:unset;
+    color: black;
+    font-size:1.1rem;
+    margin-left: 1rem;
+    max-width: 6rem;
+    max-height:1.5rem;
+    background-color: rgb(137, 173, 218);
+    padding:0 .25rem 0 .25rem;
+    border-radius: .25rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+
+}
+
+.ViewRouteContinerPoints:hover{
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+.ViewRouteContinerOptimizedPoints{
+    all:unset;
+    color: black;
+    font-size:1.1rem;
+    margin-left: 1rem;
+    max-width: 7rem;
+    max-height:1.5rem;
+    background-color: rgb(137, 173, 218);
+    padding:0 .25rem 0 .25rem;
+    border-radius: .25rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ViewRouteContinerOptimizedPoints:hover{
+    text-decoration:underline;
+    cursor:pointer;
+}
+
+.ViewRouteContinerDirections{
+    all:unset;
+    color: black;
+    font-size:1.1rem;
+    margin-left: 1rem;
+    max-width: 6rem;
+    max-height:1.5rem;
+    background-color: rgb(137, 173, 218);
+    padding:0 .25rem 0 .25rem;
+    border-radius: .25rem;
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+.ViewRouteContinerDirections:hover{
+    text-decoration:underline;
+    cursor:pointer;
 }
 
 .RoutePointsContainer{
@@ -29,7 +93,7 @@
 }
 
 .WayPointsContainer{
-    max-height: 11rem;
+    max-height: 8rem;
     overflow-x: hidden;
     overflow-y: auto
 }
@@ -74,10 +138,8 @@
 @media(max-width: 450px){
     .ViewRouteContiner{
     max-width:100%;
-    bottom:.5rem;
     top:auto;
+    bottom:1rem;
     left: auto;
-
-
     }
   }
