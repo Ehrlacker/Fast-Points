@@ -20,7 +20,6 @@ export function setupMapPoints(
     });
   }
 
-
   if (end) {
     const endSource = map.getSource('end-point') as mapboxgl.GeoJSONSource;
     endSource?.setData({
@@ -33,7 +32,7 @@ export function setupMapPoints(
     });
   }
 
-
+  // Logic for setting waypoints
   const waypointsData: GeoJSON.FeatureCollection = {
     type: 'FeatureCollection',
     features: waypoints.map(waypoint => ({

@@ -2,7 +2,7 @@ import polyline from '@mapbox/polyline';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import { toast } from 'react-toastify';
-import { parkProps } from '../types';
+import { parkProps, Trip } from '../types';
 import { drawRouteOnMap } from '../Utils/drawRouteOnMap';
 
 export const handleSelectedWaypoint = (
@@ -62,6 +62,7 @@ export const handleOptimizeRoute = async (
     end: parkProps | undefined,
     waypoints: parkProps[],
     setSelectorFormOpen: React.Dispatch<React.SetStateAction<boolean>>,
+    setTrips: React.Dispatch<React.SetStateAction<Trip[]>>,
     mapRef: React.RefObject<mapboxgl.Map>
 
 ) => {
@@ -71,9 +72,12 @@ export const handleOptimizeRoute = async (
     }
     const coordinates = [start.coordinates, ...waypoints.map(wp => wp.coordinates), end.coordinates].join(';');
     try {
-        const response = await axios.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinates}?source=first&destination=last&roundtrip=false&access_token=${mapboxgl.accessToken}`);
+        const response = await axios.get(`https://api.mapbox.com/optimized-trips/v1/mapbox/driving/${coordinates}?source=first&destination=last&roundtrip=false&steps=true&access_token=${mapboxgl.accessToken}`);
+
         if (response.data.code === "Ok") {
-            const optimizedRoute = polyline.decode(response.data?.trips[0]?.geometry);
+            setTrips(response.data.trips)
+            const optimizedRoute = polyline.decode(response.data?.trips[0]?.geometry)
+
             const latLongReversed = optimizedRoute.map((coordinatePair) => {
                 const [lat, long] = coordinatePair;
                 return [long, lat];

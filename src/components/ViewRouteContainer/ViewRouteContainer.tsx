@@ -1,7 +1,8 @@
 
-import { parkProps } from '../../types'
+import { parkProps, Trip } from '../../types'
 import './ViewRouteContainer.css'
 import { Dispatch, SetStateAction } from 'react';
+import DirectionsContainer from '../DirectionsContainer/DirectionsContainer';
 
 
 type ViewRouteContinerProps = {
@@ -10,10 +11,37 @@ type ViewRouteContinerProps = {
     routeEnd?: parkProps,
     setState: Dispatch<SetStateAction<parkProps[]>>
     viewRouteFalse: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
+    PointsModal: boolean,
+    setPointsModal: Dispatch<SetStateAction<boolean>>
+    OptimizedModal: boolean
+    setOptimizedModal: Dispatch<SetStateAction<boolean>>,
+    DirectionsModal: boolean
+    setDirectionsModal: Dispatch<SetStateAction<boolean>>,
+    TripArray: Trip[]
+
 }
 
 
-const ViewRouteContainer = ({ routeStart, routePoints, setState, routeEnd, viewRouteFalse }: ViewRouteContinerProps) => {
+const ViewRouteContainer = ({ routeStart, routePoints, setState, routeEnd, viewRouteFalse, PointsModal, setPointsModal, OptimizedModal, setOptimizedModal, DirectionsModal, setDirectionsModal, TripArray }: ViewRouteContinerProps) => {
+
+
+    const handlePointsModal = () => {
+        setPointsModal(true)
+        setOptimizedModal(false)
+        setDirectionsModal(false)
+
+    }
+    const handleOptimizedModal = () => {
+        setOptimizedModal(true)
+        setPointsModal(false)
+        setDirectionsModal(false)
+    }
+    const handleDirectionsModal = () => {
+        setDirectionsModal(true)
+        setPointsModal(false)
+        setOptimizedModal(false)
+
+    }
 
     const handleDeletePoint = (routePoint: parkProps) => {
         const newWayPointList = routePoints.filter(waypoint => {
@@ -22,27 +50,69 @@ const ViewRouteContainer = ({ routeStart, routePoints, setState, routeEnd, viewR
         setState(newWayPointList)
     }
 
-
-    return (
-        <div className="ViewRouteContiner">
-            <div className="RoutePointsContainer">
-                <div className="RouteStart">{routeStart?.name}</div>
-                <div className="WayPointsContainer">
-                    {routePoints.map((routePoint) => {
-                        return (
-                            <div className="WayPointsWrapper" key={routePoint.id}>
-                                <div className="RoutePoints">{routePoint?.name}</div>
-                                <button className="DeleteWaypoint"
-                                    onClick={() => handleDeletePoint(routePoint)}>X</button>
-                            </div>
-                        )
-                    })}
+    if (PointsModal && !OptimizedModal && !DirectionsModal) {
+        return (
+            <div className="ViewRouteContiner">
+                <div className="HeadingsWrapper">
+                    <button onClick={handlePointsModal} className="ViewRouteContinerPoints">Points</button>
+                    <button onClick={handleOptimizedModal} className="ViewRouteContinerOptimizedPoints">Optimized</button>
+                    <button onClick={handleDirectionsModal} className="ViewRouteContinerDirections">Directions</button>
                 </div>
-                <div className="RouteEnd">{routeEnd?.name}</div>
+
+                <div className="RoutePointsContainer">
+                    <div className="RouteStart">{routeStart?.name}</div>
+                    <div className="WayPointsContainer">
+                        {routePoints.map((routePoint) => {
+                            return (
+                                <div className="WayPointsWrapper" key={routePoint.id}>
+                                    <div className="RoutePoints">{routePoint?.name}</div>
+                                    <button className="DeleteWaypoint"
+                                        onClick={() => handleDeletePoint(routePoint)}>X</button>
+                                </div>
+                            )
+                        })}
+                    </div>
+                    <div className="RouteEnd">{routeEnd?.name}</div>
+                </div>
+                <button className="setViewRouteFalse" onClick={viewRouteFalse}>X</button>
+            </div>
+        )
+    }
+
+
+
+
+    else if (OptimizedModal && !PointsModal && !DirectionsModal) {
+        return (<div className="ViewRouteContiner">
+            <div className="HeadingsWrapper">
+                <button onClick={handlePointsModal} className="ViewRouteContinerPoints">Points</button>
+                <button onClick={handleOptimizedModal} className="ViewRouteContinerOptimizedPoints">Optimized</button>
+                <button onClick={handleDirectionsModal} className="ViewRouteContinerDirections">Directions</button>
             </div>
             <button className="setViewRouteFalse" onClick={viewRouteFalse}>X</button>
-        </div>
-    )
+        </div>)
+    }
+
+
+
+
+    else if (DirectionsModal && !OptimizedModal && !PointsModal) {
+        return (<div className="ViewRouteContiner">
+            <div className="HeadingsWrapper">
+                <button onClick={handlePointsModal} className="ViewRouteContinerPoints">Points</button>
+                <button onClick={handleOptimizedModal} className="ViewRouteContinerOptimizedPoints">Optimized</button>
+                <button onClick={handleDirectionsModal} className="ViewRouteContinerDirections">Directions</button>
+            </div>
+            <DirectionsContainer
+                TripArray={TripArray}
+            />
+            <button className="setViewRouteFalse" onClick={viewRouteFalse}>X</button>
+        </div>)
+    }
+    else {
+        return null
+    }
+
 }
 
 export default ViewRouteContainer

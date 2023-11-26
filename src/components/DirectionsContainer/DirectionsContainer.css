@@ -1,0 +1,32 @@
+
+  .Trips{
+    max-height: 10rem;
+    height: 100%;
+    max-width: 25rem;
+    width: 100%;
+
+    color: rgb(50, 108, 179);
+    font-size:.75rem;
+    font-weight: bold;
+    border-radius: 1.25rem;
+
+    display: flex;
+    flex-direction: column;
+    align-items: left;
+    overflow-x: hidden;
+    overflow-y: scroll;
+  }
+
+
+
+
+
+  @media(max-width: 450px){
+    .Trips{
+        max-height: 8rem;
+        max-width: 100%;
+        top:auto;
+        bottom:.5rem;
+        left:auto;
+    }
+  }
