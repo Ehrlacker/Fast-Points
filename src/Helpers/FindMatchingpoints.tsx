@@ -1,14 +1,8 @@
 
 import parkLocations from '../Arrays/parkLocations';
 
-type FindMatchingpointsProps ={
-    latLongReversed?: number[][] | null,
-    matchingNames:string[] ,
-    setMatchingNames: React.Dispatch<React.SetStateAction<string[]> >,
-}
-
-const FindMatchingpoints = ({ latLongReversed,matchingNames, setMatchingNames}: FindMatchingpointsProps) => {
-
+const findMatchingLocations = (latLongReversed: number[][]) => {
+    const matchingNames = []
     if (latLongReversed) {
         for (const coord1 of latLongReversed) {
             const matchingLocation = parkLocations.find(location => {
@@ -17,13 +11,14 @@ const FindMatchingpoints = ({ latLongReversed,matchingNames, setMatchingNames}: 
                     location.coordinates[1] === coord1[1]
                 );
             });
+
             if (matchingLocation) {
-
-
-                setMatchingNames(matchingNames)
+                matchingNames.push(matchingLocation.name);
             }
         }
+
     }
+    return matchingNames;
 }
 
-export default FindMatchingpoints
+export default findMatchingLocations

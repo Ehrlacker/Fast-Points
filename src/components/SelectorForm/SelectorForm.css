@@ -5,7 +5,7 @@
     left: 1rem;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: start;
     color: red;
     background-color: white;
     max-width: 23rem;
@@ -16,10 +16,6 @@
 
 }
 
-.StartEndInputContainer{
-    width: 100%;
-}
-
 
 .parkWaypoint{
     color: blue;
@@ -27,14 +23,15 @@
 
 .StartEndInputContainer{
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     margin: .5rem;
+    width: 80%;
 }
 
 .waypointButtonAndInputContainer{
     display: flex;
-    justify-content: space-between;
-    width: 100%;
+    justify-content: center;
+    width: 80%;
     margin: .5rem;
 }
 
@@ -42,9 +39,21 @@
     position:absolute;
     bottom: 0;
     display: flex;
-    justify-content: space-between;
+    justify-content: center;
     flex-direction:row-reverse;
-    width: 100%;
+    width: 80%;
+    margin: .5rem;
+}
+
+.SelectorFormCloseButton{
+    position: absolute;
+    top:1rem;
+    right:.5rem;
+    width: .5rem;
+    height: 2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 
