@@ -3,7 +3,6 @@ import { parkProps, Trip } from '../../types'
 import './ViewRouteContainer.css'
 import { Dispatch, SetStateAction } from 'react';
 import DirectionsContainer from '../DirectionsContainer/DirectionsContainer';
-import { v4 as uuidv4 } from 'uuid'
 import OptimizedPointsSection from '../OptimizedPointsSection/OptimizedPointsSection';
 
 
