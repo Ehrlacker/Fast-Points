@@ -2,6 +2,7 @@ import polyline from '@mapbox/polyline';
 import axios from 'axios';
 import mapboxgl from 'mapbox-gl';
 import { toast } from 'react-toastify';
+import parkLocations from '../Arrays/parkLocations';
 import { parkProps, Trip } from '../types';
 import { drawRouteOnMap } from '../Utils/drawRouteOnMap';
 
@@ -63,9 +64,11 @@ export const handleOptimizeRoute = async (
     waypoints: parkProps[],
     setSelectorFormOpen: React.Dispatch<React.SetStateAction<boolean>>,
     setTrips: React.Dispatch<React.SetStateAction<Trip[]>>,
+    setMatchingNames: React.Dispatch<React.SetStateAction<string[]>>,
     mapRef: React.RefObject<mapboxgl.Map>
 
 ) => {
+    setMatchingNames([])
     if (!start || !end || waypoints.length === 0) {
         toast("Please select a starting point, ending point, and at least one waypoint.");
         return;
@@ -78,10 +81,30 @@ export const handleOptimizeRoute = async (
             setTrips(response.data.trips)
             const optimizedRoute = polyline.decode(response.data?.trips[0]?.geometry)
 
+
             const latLongReversed = optimizedRoute.map((coordinatePair) => {
                 const [lat, long] = coordinatePair;
                 return [long, lat];
             })
+
+            console.log(latLongReversed)
+
+
+           for (const coord1 of latLongReversed) {
+               const matchingLocation = parkLocations.find(location => {
+                   return (
+                       location.coordinates[0] === coord1[0] &&
+                       location.coordinates[1] === coord1[1]
+                   );
+               });
+      
+               if (matchingLocation) {
+                   console.log(matchingLocation.name)
+                setMatchingNames((prevMatchingNames) => [...prevMatchingNames, matchingLocation.name]);
+               }
+           }
+
+
             drawRouteOnMap(mapRef.current, latLongReversed);
             setSelectorFormOpen(false)
         } else {
