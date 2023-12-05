@@ -6,7 +6,6 @@ import { parkProps, Trip } from './types'
 import './App.css'
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import ClosedSelectorForm from './components/ClosedSelectorForm/ClosedSelectorForm';
 import ViewRouteContainer from './components/ViewRouteContainer/ViewRouteContainer';
 import { handleAddWaypoint, handleEnd, handleOptimizeRoute, handleSelectedWaypoint, handleStart } from './Handlers/Handlers';
 import { setupMapPoints } from './Utils/setupMapPoints'
@@ -195,7 +194,7 @@ const App = () => {
       <ToastContainer
         position="top-right"
         autoClose={3000} />
-      {selectorFormOpen ?
+
         <SelectorForm
           start={start}
           end={end}
@@ -207,11 +206,10 @@ const App = () => {
           onOptimizeRoute={() => handleOptimizeRoute(start, end, waypoints, setTrips, setMatchingNames, mapRef)}
           viewRoute={() => { setRouteViewable(true)}}
           onClick={() => { setSelectorFormOpen(false)}}
+          selectorFormOpen={selectorFormOpen}
+          setSelectorFormOpen={setSelectorFormOpen}
         />
-        : <ClosedSelectorForm
-          onClick={() => setSelectorFormOpen(true)} />}
 
-      {routeViewable ?
         <ViewRouteContainer
           setState={setWaypoints}
           viewRouteFalse={() => { setRouteViewable(false) }}
@@ -226,10 +224,8 @@ const App = () => {
           setDirectionsModal={setDirectionsModal}
           TripArray={Trips}
           matchingNames={matchingNames}
-        /> : null}
-
-
-
+          routeViewable={routeViewable}
+        /> 
 
     </>
   )
