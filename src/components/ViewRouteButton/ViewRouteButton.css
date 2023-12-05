@@ -1,13 +1,13 @@
 
 
 .ViewRouteButton{
-    width: 10rem;
+    width: 9rem;
     height: 2rem;
     margin-top: .5rem;
     font-size: .75rem;
     font-weight: bold;
     background-color: rgb(137, 173, 218);
     color: black;
-    margin: .5rem 0 1rem .5rem;
+    margin: .5rem .5rem 0 0;
     box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
 }

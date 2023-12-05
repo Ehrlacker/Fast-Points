@@ -68,7 +68,7 @@ const parkLocations: parkProps[] = [
         id:uuidv4(),
         name: "Apex Middle School",
         type: "park",
-        coordinates: [-78.84668, 35.7261]
+        coordinates: [-78.84667, 35.7261]
     },
     
     {

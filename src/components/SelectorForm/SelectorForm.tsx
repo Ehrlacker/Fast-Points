@@ -16,9 +16,10 @@ interface LocationSelectorProps {
   handleStart: ChangeEventHandler<HTMLSelectElement>,
   handleEnd: ChangeEventHandler<HTMLSelectElement>,
   handleSelectedWaypoint: ChangeEventHandler<HTMLSelectElement>,
+  onClick: (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => void,
 }
 
-const SelectForm = ({ onAddWaypoint,viewRoute, onOptimizeRoute, start, end, selectedWaypoint, handleStart, handleEnd, handleSelectedWaypoint }: LocationSelectorProps) => {
+const SelectForm = ({ onAddWaypoint,viewRoute, onOptimizeRoute, start, end, selectedWaypoint, handleStart, handleEnd, handleSelectedWaypoint, onClick }: LocationSelectorProps) => {
 
 
 
@@ -64,6 +65,9 @@ const SelectForm = ({ onAddWaypoint,viewRoute, onOptimizeRoute, start, end, sele
           onClick={viewRoute}
         />
       </div>
+
+
+      <button className="SelectorFormCloseButton" onClick={onClick}>x</button>
 
 
     </div>

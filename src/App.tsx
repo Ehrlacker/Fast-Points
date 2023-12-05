@@ -13,8 +13,6 @@ import { setupMapPoints } from './Utils/setupMapPoints'
 
 mapboxgl.accessToken = import.meta.env.VITE_MAPBOX_KEY;
 
-
-
 const App = () => {
 
   const mapRef = useRef<mapboxgl.Map | null>(null);
@@ -206,8 +204,9 @@ const App = () => {
           handleStart={(e) => handleStart(e, parkCoordinates, setStart)}
           handleSelectedWaypoint={(e) => handleSelectedWaypoint(e, parkCoordinates, setSelectedWaypoint)}
           onAddWaypoint={() => handleAddWaypoint(selectedWaypoint, waypoints, setWaypoints, setSelectedWaypoint)}
-          onOptimizeRoute={() => handleOptimizeRoute(start, end, waypoints, setSelectorFormOpen, setTrips, setMatchingNames, mapRef)}
-          viewRoute={() => { setRouteViewable(true) }}
+          onOptimizeRoute={() => handleOptimizeRoute(start, end, waypoints, setTrips, setMatchingNames, mapRef)}
+          viewRoute={() => { setRouteViewable(true)}}
+          onClick={() => { setSelectorFormOpen(false)}}
         />
         : <ClosedSelectorForm
           onClick={() => setSelectorFormOpen(true)} />}
@@ -215,7 +214,7 @@ const App = () => {
       {routeViewable ?
         <ViewRouteContainer
           setState={setWaypoints}
-          viewRouteFalse={() => {setRouteViewable(false)}}
+          viewRouteFalse={() => { setRouteViewable(false) }}
           routeStart={start}
           routePoints={waypoints}
           routeEnd={end}
