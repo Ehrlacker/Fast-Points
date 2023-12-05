@@ -28,11 +28,10 @@ const App = () => {
   const [pointsModal, setPointsModal] = useState(true);
   const [optimizedModal, setOptimizedModal] = useState(false);
   const [directionsModal, setDirectionsModal] = useState(false);
+  const [matchingNames, setMatchingNames] = useState<string[]>([])
   const parkCoordinates = parkLocations
   const [lng] = useState(-78.84650);
   const [lat] = useState(35.73357);
-
-
 
   useEffect(() => {
     mapRef.current = new mapboxgl.Map({
@@ -207,7 +206,7 @@ const App = () => {
           handleStart={(e) => handleStart(e, parkCoordinates, setStart)}
           handleSelectedWaypoint={(e) => handleSelectedWaypoint(e, parkCoordinates, setSelectedWaypoint)}
           onAddWaypoint={() => handleAddWaypoint(selectedWaypoint, waypoints, setWaypoints, setSelectedWaypoint)}
-          onOptimizeRoute={() => handleOptimizeRoute(start, end, waypoints, setSelectorFormOpen, setTrips, mapRef)}
+          onOptimizeRoute={() => handleOptimizeRoute(start, end, waypoints, setSelectorFormOpen, setTrips, setMatchingNames, mapRef)}
           viewRoute={() => { setRouteViewable(true) }}
         />
         : <ClosedSelectorForm
@@ -227,7 +226,10 @@ const App = () => {
           DirectionsModal={directionsModal}
           setDirectionsModal={setDirectionsModal}
           TripArray={Trips}
+          matchingNames={matchingNames}
         /> : null}
+
+
 
 
     </>

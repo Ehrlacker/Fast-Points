@@ -1,0 +1,29 @@
+
+
+.OptimizedRoutePointsContainer{
+    margin: .5rem;
+    max-width: 13rem;
+    width: 100%;
+}
+
+.OptimizedWayPointsContainer{
+    max-height: 8rem;
+    overflow-x: hidden;
+    overflow-y: auto
+}
+
+
+.OptimizedPointsWrapper{
+    background-color: rgb(238, 236, 236);
+    max-width: 11rem;
+    border-radius: 1.5rem;
+    padding: .05rem .05rem .05rem .5rem;
+    margin: .25rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.OptimizedRoutePoints{ 
+    color: rgb(50, 108, 179);
+}

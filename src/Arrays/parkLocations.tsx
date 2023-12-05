@@ -7,26 +7,26 @@ const parkLocations: parkProps[] = [
         id:uuidv4(),
         name: "Apex Community Park",
         type: "park",
-        coordinates: [-78.82754, 35.75493] 
+        coordinates: [-78.82743, 35.75498] 
     },
     {
         id:uuidv4(),
         name: "Lake pine",
         type: "park",
-        coordinates: [-78.81602, 35.74675]
+        coordinates: [-78.81602, 35.74676]
     },
     {
         id:uuidv4(),
         name: "Hunter street park",
         type: "park",
-        coordinates: [-78.84796, 35.73747]
+        coordinates: [-78.84796, 35.7374]
     },
 
     {
         id:uuidv4(),
         name: "Kelly Road Park ",
         type: "park",
-        coordinates: [-78.89438, 35.73175]
+        coordinates: [-78.89455, 35.73195]
     },
 
 
@@ -34,28 +34,28 @@ const parkLocations: parkProps[] = [
         id:uuidv4(),
         name: "Kelly Glen Park ",
         type: "park",
-        coordinates: [-78.89341, 35.72960]
+        coordinates: [-78.89298, 35.72913]
     },
 
     {
         id:uuidv4(),
         name: "Nature Park",
         type: "park",
-        coordinates: [-78.90285, 35.71967]
+        coordinates: [-78.90284, 35.71967]
     },
 
     {
         id:uuidv4(),
         name: "Salem Pond park",
         type: "park",
-        coordinates: [ -78.84765, 35.75541]
+        coordinates: [ -78.84634, 35.75517]
     },
 
     {
         id:uuidv4(),
         name: "Seagroves Farm Park",
         type: "park",
-        coordinates: [-78.82840, 35.72787]
+        coordinates: [-78.8284, 35.72789]
     },
     {
         id:uuidv4(),
@@ -68,33 +68,33 @@ const parkLocations: parkProps[] = [
         id:uuidv4(),
         name: "Apex Middle School",
         type: "park",
-        coordinates: [-78.84666, 35.72609]
+        coordinates: [-78.84668, 35.7261]
     },
     
     {
         id:uuidv4(),
         name: "Jaycee Park",
         type: "park",
-        coordinates: [-78.86454, 35.73018] 
+        coordinates: [-78.86424, 35.73012] 
     },
     {
         id:uuidv4(),
         name: "Brown Center",
         type: "park",
-        coordinates: [-78.84643, 35.73369] 
+        coordinates: [-78.84601, 35.73389] 
     },
     {
         id:uuidv4(),
         name: "Halle Center",
         type: "park",
-        coordinates: [ -78.85031, 35.73274] 
+        coordinates: [ -78.85031, 35.73275] 
     },
 
     {
         id:uuidv4(),
         name: "Sue Helton",
         type: "park",
-        coordinates: [ -78.84899, 35.72051] 
+        coordinates: [ -78.84922, 35.72052] 
     },
 
 
@@ -102,7 +102,7 @@ const parkLocations: parkProps[] = [
         id:uuidv4(),
         name: "West street Park",
         type: "park",
-        coordinates: [ -78.84899, 35.72051] 
+        coordinates: [ -78.84922, 35.72052] 
     },
 
 
@@ -110,14 +110,14 @@ const parkLocations: parkProps[] = [
         id:uuidv4(),
         name: "Jordan Manors",
         type: "greenway",
-        coordinates: [ -78.94360, 35.69116] 
+        coordinates: [ -78.9436, 35.69117] 
     },
 
     {
         id:uuidv4(),
         name: "Haddon Hall",
         type: "greenway",
-        coordinates: [ -78.85876, 35.74019] 
+        coordinates: [ -78.85875, 35.74019] 
     },
 
     {
@@ -131,28 +131,28 @@ const parkLocations: parkProps[] = [
         id:uuidv4(),
         name: "Sutton Place",
         type: "greenway",
-        coordinates: [-78.86535, 35.76581] 
+        coordinates: [-78.86536, 35.76581] 
     },
 
     {
         id:uuidv4(),
         name: "Becketts Crossing",
         type: "greenway",
-        coordinates: [-78.87961, 35.74056] 
+        coordinates: [-78.87962, 35.74056] 
     },
 
     {
         id:uuidv4(),
         name: "Crestmont",
         type: "greenway",
-        coordinates: [-78.89859, 35.76907] 
+        coordinates: [-78.8986, 35.76907] 
     },
 
     {
         id:uuidv4(),
         name: "Reunion pointe",
         type: "greenway",
-        coordinates: [-78.83026, 35.68954] 
+        coordinates: [-78.83024, 35.68955] 
     },
 
     {
@@ -166,84 +166,77 @@ const parkLocations: parkProps[] = [
         id:uuidv4(),
         name: "Greenmoore",
         type: "greenway",
-        coordinates: [-78.90066, 35.76351] 
-    },
-
-    {
-        id:uuidv4(),
-        name: "Miramonte",
-        type: "greenway",
-        coordinates: [-78.90066, 35.76351] 
+        coordinates: [-78.90065, 35.7635] 
     },
 
     {
         id:uuidv4(),
         name: "Sweetwater",
         type: "greenway",
-        coordinates: [-78.91695, 35.74025] 
+        coordinates: [-78.91683, 35.74044] 
     },
 
     {
         id:uuidv4(),
         name: "Smith Farm",
         type: "greenway",
-        coordinates: [-78.92430, 35.73493] 
+        coordinates: [-78.92428, 35.73494] 
     },
 
     {
         id:uuidv4(),
         name: "Oak Pointe",
         type: "greenway",
-        coordinates: [-78.87196, 35.75795] 
+        coordinates: [-78.87178, 35.75808] 
     },
 
     {
         id:uuidv4(),
         name: "Meridian",
         type: "greenway",
-        coordinates: [-78.82648, 35.74816] 
+        coordinates: [-78.82644, 35.748] 
     },
 
     {
         id:uuidv4(),
         name: "Mills Farm",
         type: "greenway",
-        coordinates: [-78.83101 , 35.75063] 
+        coordinates: [ -78.83108, 35.75076] 
     },
 
     {
         id:uuidv4(),
         name: "Lake Castleberry",
         type: "greenway",
-        coordinates: [-78.93290, 35.76396] 
+        coordinates: [-78.9329, 35.76396] 
     },
 
     {
         id:uuidv4(),
         name: "Buckhorn",
         type: "greenway",
-        coordinates: [-78.92421, 35.71232] 
+        coordinates: [-78.92417, 35.71229] 
     },
 
     {
         id:uuidv4(),
         name: "Stillwater",
         type: "greenway",
-        coordinates: [-78.92619, 35.71434] 
+        coordinates: [-78.9262, 35.71438] 
     },
 
     {
         id:uuidv4(),
         name: "Deer Creek",
         type: "greenway",
-        coordinates: [-78.94517, 35.73806] 
+        coordinates: [-78.94518, 35.73805] 
     },
 
     {
         id:uuidv4(),
         name: "Beaver Creek",
         type: "greenway",
-        coordinates: [-78.88369, 35.73607] 
+        coordinates: [-78.88339, 35.73601] 
     },
 
 ]

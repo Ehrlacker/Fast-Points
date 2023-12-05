@@ -3,6 +3,7 @@ import { parkProps, Trip } from '../../types'
 import './ViewRouteContainer.css'
 import { Dispatch, SetStateAction } from 'react';
 import DirectionsContainer from '../DirectionsContainer/DirectionsContainer';
+import OptimizedPointsSection from '../OptimizedPointsSection/OptimizedPointsSection';
 
 
 type ViewRouteContinerProps = {
@@ -17,12 +18,13 @@ type ViewRouteContinerProps = {
     setOptimizedModal: Dispatch<SetStateAction<boolean>>,
     DirectionsModal: boolean
     setDirectionsModal: Dispatch<SetStateAction<boolean>>,
+    matchingNames: string[],
     TripArray: Trip[]
 
 }
 
 
-const ViewRouteContainer = ({ routeStart, routePoints, setState, routeEnd, viewRouteFalse, PointsModal, setPointsModal, OptimizedModal, setOptimizedModal, DirectionsModal, setDirectionsModal, TripArray }: ViewRouteContinerProps) => {
+const ViewRouteContainer = ({ routeStart, routePoints, setState, routeEnd, viewRouteFalse, PointsModal, setPointsModal, OptimizedModal, setOptimizedModal, DirectionsModal, setDirectionsModal, matchingNames, TripArray }: ViewRouteContinerProps) => {
 
 
     const handlePointsModal = () => {
@@ -80,8 +82,6 @@ const ViewRouteContainer = ({ routeStart, routePoints, setState, routeEnd, viewR
     }
 
 
-
-
     else if (OptimizedModal && !PointsModal && !DirectionsModal) {
         return (<div className="ViewRouteContiner">
             <div className="HeadingsWrapper">
@@ -89,12 +89,10 @@ const ViewRouteContainer = ({ routeStart, routePoints, setState, routeEnd, viewR
                 <button onClick={handleOptimizedModal} className="ViewRouteContinerOptimizedPoints">Optimized</button>
                 <button onClick={handleDirectionsModal} className="ViewRouteContinerDirections">Directions</button>
             </div>
+            <OptimizedPointsSection matchingNames={matchingNames} />
             <button className="setViewRouteFalse" onClick={viewRouteFalse}>X</button>
         </div>)
     }
-
-
-
 
     else if (DirectionsModal && !OptimizedModal && !PointsModal) {
         return (<div className="ViewRouteContiner">
